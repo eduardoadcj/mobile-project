@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Contato } from '../modelo/contato';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contato-listar',
@@ -7,9 +11,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContatoListarPage implements OnInit {
 
-  constructor() { }
+  listaContatos: Observable<Contato[]>;
 
-  ngOnInit() {
+  constructor(private fire: AngularFireDatabase){
+    this.listaContatos = this.fire.list<Contato>('contato').snapshotChanges().pipe(
+      map( lista => lista.map( linha => ({key: linha.payload.key, ... linha.payload.val() }) ))
+    );
+  }
+
+  ngOnInit(){
+
   }
 
 }

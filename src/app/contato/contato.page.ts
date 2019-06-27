@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Contato } from '../modelo/contato';
 import { ContatoService } from '../service/contato.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contato',
@@ -11,7 +12,7 @@ export class ContatoPage implements OnInit {
 
   contato: Contato = new Contato();
 
-  constructor(private service: ContatoService) { }
+  constructor(private service: ContatoService, private rota: Router) { }
 
   ngOnInit() {
   }
@@ -19,6 +20,7 @@ export class ContatoPage implements OnInit {
   salvar() {
     this.service.salvar(this.contato);
     this.contato = new Contato();
+    this.rota.navigate(['contato-listar']);
   }
 
 }
