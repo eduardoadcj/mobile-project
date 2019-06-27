@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Contato } from '../modelo/contato';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { map } from 'rxjs/operators';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -30,7 +31,11 @@ export class ContatoListarPageModule implements OnInit{
 
   listaContatos: Observable<Contato[]>;
 
-  constructor(private fire: AngularFireDatabase){}
+  constructor(private fire: AngularFireDatabase){
+    this.listaContatos = this.fire.list<Contato>('contato').snapshotChanges().pipe(
+      map( lista => lista.map( lista => ({  key: lista.payload.key,... lista.payload.val() }) ))
+    );
+  }
 
   ngOnInit(){
 
