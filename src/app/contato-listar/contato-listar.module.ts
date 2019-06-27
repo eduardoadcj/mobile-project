@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Contato } from '../modelo/contato';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -28,6 +29,8 @@ const routes: Routes = [
 export class ContatoListarPageModule implements OnInit{
 
   listaContatos: Observable<Contato[]>;
+
+  constructor(private fire: AngularFireDatabase){}
 
   ngOnInit(){
 
